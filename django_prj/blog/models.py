@@ -18,3 +18,8 @@ class Post(models.Model):
 
    def __str__(self):
       return f'[{self.pk}] {self.title}'
+   
+   # get_absolute_url(self) : 관리자 페이지에서 site view 버튼이 생성됨
+   # 모델의 인스턴스를 대표하는 url를 반환한다.
+   def get_absolute_url(self):
+      return f'/blog/{self.pk}/'
