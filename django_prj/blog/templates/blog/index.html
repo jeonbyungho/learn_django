@@ -9,12 +9,16 @@
    <h1>Blog</h1>
 
    {% for p in posts %}
-   <h4>{{p}}</h4>
+   <hr>
+   <h4>
+      <a href="{% url 'detail' p.pk %}">{{p}}</a>
+   </h4>
    <ul>
-      <li>{{p.content}}</li>
-      <li>{{p.create_at}}</li>
-      <li>{{p.update_at}}</li>
+      <li>{{p.created_at}}</li>
+      <li>{{p.updated_at}}</li>
    </ul>
+   <div>{{p.content}}</div>
    {% endfor %}
+   <hr>
 </body>
 </html>
