@@ -3,9 +3,18 @@
 <head>
    <meta charset="UTF-8">
    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-   <title>블로그</title>
+   <title>Blog</title>
 </head>
 <body>
-   <h1>블로그 페이지</h1>
+   <h1>Blog</h1>
+
+   {% for p in posts %}
+   <h4>{{p}}</h4>
+   <ul>
+      <li>{{p.content}}</li>
+      <li>{{p.create_at}}</li>
+      <li>{{p.update_at}}</li>
+   </ul>
+   {% endfor %}
 </body>
 </html>
