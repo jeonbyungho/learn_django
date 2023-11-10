@@ -14,7 +14,7 @@ class Post(models.Model):
    updated_at = models.DateTimeField(auto_now=True)
    
    # 작성자
-   # author
+   author = models.TextField()
 
    def __str__(self):
       return f'[{self.pk}] {self.title}'
