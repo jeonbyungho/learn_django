@@ -16,6 +16,9 @@ class Post(models.Model):
    # 작성자
    author = models.TextField()
 
+   # 대표 이미지 upload_to : 저장될 경로와 이름 양식을 지정, blank : 빈 값 허용 여부
+   head_image = models.ImageField(upload_to='blog/images/%Y/%m/%d', blank=True)
+
    def __str__(self):
       return f'[{self.pk}] {self.title}'
    
