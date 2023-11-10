@@ -5,6 +5,9 @@ class Post(models.Model):
    # 제목
    title = models.CharField(max_length=50)
 
+   # 요약문
+   hook_text = models.CharField(max_length=100, blank=True)
+
    # 내용
    content = models.TextField()
 
@@ -15,7 +18,7 @@ class Post(models.Model):
    updated_at = models.DateTimeField(auto_now=True)
    
    # 작성자
-   author = models.TextField()
+   author = models.TextField(blank=True)
 
    # 대표 이미지 upload_to : 저장될 경로와 이름 양식을 지정, blank : 빈 값 허용 여부
    head_image = models.ImageField(upload_to='blog/images/%Y/%m/%d', blank=True)
@@ -36,4 +39,4 @@ class Post(models.Model):
       return os.path.basename(self.file_upload.name)
    
    def get_file_ext(self):
-      return os.path.splitext(self.file_upload.name)[1]
+      return self.get_file_name()[1]
