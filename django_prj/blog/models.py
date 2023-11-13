@@ -1,6 +1,20 @@
 from django.db import models
+from django.contrib.auth.models import User
 import os
 
+# 카테고리
+class Category(models.Model):
+   name = models.CharField(max_length=50, unique=True)
+   # allow_unicode : 한글을 포함한 모든 유니코드 문자를 지원해준다.
+   slug = models.SlugField(max_length=200, unique=True, allow_unicode=True)
+
+   def __str__(self):
+      return self.name
+   
+   class Meta:
+      verbose_name_plural = 'Categories'
+
+# 게시판
 class Post(models.Model):
    # 제목
    title = models.CharField(max_length=50)
@@ -18,7 +32,10 @@ class Post(models.Model):
    updated_at = models.DateTimeField(auto_now=True)
    
    # 작성자
-   author = models.TextField(blank=True)
+   author = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
+
+   # 카테고리
+   category = models.ForeignKey(Category, on_delete=models.SET_NULL, null=True)
 
    # 대표 이미지 upload_to : 저장될 경로와 이름 양식을 지정, blank : 빈 값 허용 여부
    head_image = models.ImageField(upload_to='blog/images/%Y/%m/%d', blank=True)
@@ -27,7 +44,7 @@ class Post(models.Model):
    file_upload = models.FileField(upload_to='blog/images/%Y/%m/%d', blank=True)
 
    def __str__(self):
-      return f'[{self.pk}] {self.title}'
+      return f'[{self.pk}] {self.title} :: {self.author}'
    
    # get_absolute_url(self) : 관리자 페이지에서 site view 버튼이 생성됨
    # 모델의 인스턴스를 대표하는 url를 반환한다.
