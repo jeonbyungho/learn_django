@@ -10,8 +10,9 @@ class Category(models.Model):
 
    def __str__(self):
       return self.name
-   
+
    class Meta:
+      # verbose_name_plural : 관리자 페이지에서 보여질 모델명을 지정한다.
       verbose_name_plural = 'Categories'
 
 # 게시판
@@ -35,7 +36,7 @@ class Post(models.Model):
    author = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
 
    # 카테고리
-   category = models.ForeignKey(Category, on_delete=models.SET_NULL, null=True)
+   category = models.ForeignKey(Category, on_delete=models.SET_NULL, null=True, blank=True)
 
    # 대표 이미지 upload_to : 저장될 경로와 이름 양식을 지정, blank : 빈 값 허용 여부
    head_image = models.ImageField(upload_to='blog/images/%Y/%m/%d', blank=True)

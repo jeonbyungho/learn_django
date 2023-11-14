@@ -6,8 +6,14 @@
 
 {% block main_area %}
   <div id="post-area">
+    <!-- category -->
+    {% if post.category %}
+      <span>{{ post.category }}</span>
+    {% else %}
+      <span>미분류</span>
+    {% endif %}
     <!-- Title -->
-    <h1 class="mt-4" style="margin-top:4rem!important">{{post.title}}</h1>
+    <h1 class="mt-4">{{post.title}}</h1>
     <!-- Hook Text -->
     {% if post.hook_text %}
       <p class="lead">{{ post.hook_text }}</p>

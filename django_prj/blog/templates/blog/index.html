@@ -10,6 +10,13 @@
             <img class="card-img-top" src="https://picsum.photos/seed/{{ p.id }}/600/300" alt="Card image cap">
         {% endif %}
         <div class="card-body">
+            <!-- category -->
+            {% if p.category %}
+                <span>{{ p.category }}</span>
+            {% else %}
+                <span>미분류</span>
+            {% endif %}
+            <!-- title -->
             <h2 class="card-title">{{p.title}}</h2>
             {% if p.hook_text %}<p class="card-text">{{p.hook_text}}</p>{% endif %}
             <p class="card-text">{{ p.content | truncatewords:42 }}</p>
