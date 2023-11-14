@@ -18,6 +18,20 @@ class Category(models.Model):
       # verbose_name_plural : 관리자 페이지에서 보여질 모델명을 지정한다.
       verbose_name_plural = 'Categories'
 
+# 태그
+class Tag(models.Model):
+   name = models.CharField(max_length=50, unique=True)
+   slug = models.SlugField(max_length=200, unique=True, allow_unicode=True)
+
+   def __str__(self):
+      return self.name
+   
+   def get_absolute_url(self):
+      return f'/blog/tag/{self.slug}'
+
+   class Meta:
+      verbose_name_plural = 'Tags'
+
 # 게시판
 class Post(models.Model):
    # 제목
@@ -46,6 +60,9 @@ class Post(models.Model):
 
    # 파일
    file_upload = models.FileField(upload_to='blog/images/%Y/%m/%d', blank=True)
+
+   # 태그 N:N 관계
+   tags = models.ManyToManyField(Tag, blank=True)
 
    def __str__(self):
       return f'[{self.pk}] {self.title} :: {self.author}'

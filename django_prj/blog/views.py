@@ -1,7 +1,7 @@
 from typing import Any
 from django.shortcuts import render
-from .models import Post, Category
-from django.views.generic import ListView, DetailView
+from .models import Post, Category, Tag
+from django.views.generic import ListView, DetailView, CreateView
 
 class PostList(ListView):
    model = Post
@@ -36,3 +36,20 @@ def category_page(request, slug):
       "categorys" : Category.objects.all(),
       "no_category_post_count": Post.objects.filter(category=None).count(),
    })
+
+def tag_page(request, slug) -> render:
+   tag = Tag.objects.get(slug=slug)
+   return render(request, "blog/index.html", {
+      "tag"  : tag,
+      "posts"     : tag.post_set.all().order_by("-pk"),
+      "categorys" : Category.objects.all(),
+      "no_category_post_count": Post.objects.filter(category=None).count(),
+   })
+
+class PostCreate(CreateView):
+   model = Post
+   fields = [
+   'title', 'hook_text', 'content', 
+   'head_image','file_upload', 'category', 
+   'tags'
+   ]

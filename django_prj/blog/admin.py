@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Post, Category
+from .models import Post, Category, Tag
 
 # Register your models here.
 # admin 화면에 post를 볼 수 있도록 한다.
@@ -10,3 +10,4 @@ class CategoryAdmin(admin.ModelAdmin):
    prepopulated_fields = {'slug':('name',)}
 
 admin.site.register(Category, CategoryAdmin)
+admin.site.register(Tag, CategoryAdmin)
