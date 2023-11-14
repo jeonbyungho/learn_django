@@ -21,3 +21,18 @@ class PostDetail(DetailView):
    template_name = "blog/detail.html"
    context_object_name = "post"
    pk_url_kwarg = 'post_pk'
+
+   def get_context_data(self, **kwargs):
+      context = super(PostDetail, self).get_context_data()
+      context['categorys'] = Category.objects.all()
+      context['no_category_post_count'] = Post.objects.filter(category=None).count()
+      return context
+   
+def category_page(request, slug):
+   category = Category.objects.get(slug=slug) if (slug != 'no_category') else None
+   return render(request, "blog/index.html", {
+      "category"  : category,
+      "posts"     : Post.objects.filter(category=category).order_by("-pk"),
+      "categorys" : Category.objects.all(),
+      "no_category_post_count": Post.objects.filter(category=None).count(),
+   })
