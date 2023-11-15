@@ -44,6 +44,17 @@ INSTALLED_APPS = [
     "crispy_forms",
     "crispy_bootstrap4",
     "markdownx",
+
+    'django.contrib.sites',
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
+    'allauth.socialaccount.providers.google',
+]
+
+AUTHENTICATION_BACKENDS = [
+    'django.contrib.auth.backends.ModelBackend',
+    'allauth.account.auth_backends.AuthenticationBackend',
 ]
 
 MIDDLEWARE = [
@@ -54,7 +65,14 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    
+    "allauth.account.middleware.AccountMiddleware",
 ]
+
+ACCOUNT_EMAIL_REQUIRED = True
+ACCOUNT_EMAIL_VERIFICATION = 'none'
+SOCIALACCOUNT_LOGIN_ON_GET = True
+SITE_ID = 1
 
 ROOT_URLCONF = 'django_prj.urls'
 
