@@ -1,6 +1,8 @@
 from django.db import models
 from django.contrib.auth.models import User
 import os
+from markdownx.models import MarkdownxField
+from markdownx.utils import markdown
 
 # 카테고리
 class Category(models.Model):
@@ -41,7 +43,7 @@ class Post(models.Model):
    hook_text = models.CharField(max_length=100, blank=True)
 
    # 내용
-   content = models.TextField()
+   content = MarkdownxField()
 
    # 작성일 auto_now_add : 필드가 생성될 때 자동으로 값이 할당된다.
    created_at = models.DateTimeField(auto_now_add=True)
@@ -78,3 +80,6 @@ class Post(models.Model):
    
    def get_file_ext(self):
       return self.get_file_name()[1]
+   
+   def get_content_markdown(self):
+      return markdown(self.content)

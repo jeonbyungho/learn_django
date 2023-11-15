@@ -37,7 +37,7 @@
             <!-- title -->
             <h2 class="card-title">{{p.title}}</h2>
             {% if p.hook_text %}<p class="card-text">{{p.hook_text}}</p>{% endif %}
-            <p class="card-text">{{ p.content | truncatewords:42 }}</p>
+            <p class="card-text">{{ p.get_content_markdown | safe | truncatewords:42 }}</p>
             <!-- tag -->
             {% if p.tags %}
                 <i class="fas fa-tags"></i>

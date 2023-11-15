@@ -41,7 +41,8 @@
 
     <!-- Post Content -->
     <p>
-      {{post.content}}
+      <!-- | safe : html 렌더링되지 않도록 한다. -->
+      {{ post.get_content_markdown |safe }}
     </p>
 
     {% if user.is_authenticated and user == post.author %}
