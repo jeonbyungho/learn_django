@@ -44,6 +44,10 @@
       {{post.content}}
     </p>
 
+    {% if user.is_authenticated and user == post.author %}
+      <a href="/blog/update_post/{{post.pk}}">Edit Post</a>
+    {% endif %}
+
     <!-- file download -->
     {% if post.file_upload %}
       <a href="{{ post.file_upload.url }}" type="button" class="btn btn-outline-dark" role="button" download>
