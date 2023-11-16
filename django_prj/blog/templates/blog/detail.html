@@ -100,10 +100,19 @@
 
           {% if user == comment.author %}
           <a class="btn btn-sm btn-info float-right" role="button"
-              href="/blog/update_comment/{{comment.pk}}/"
+              href="{% url 'update_comment' comment.pk %}"
               id="comment-{{ comment.pk }}-update-btn">
             edit
           </a>
+
+          <a class="btn btn-sm btn-danger float-right" role="button"
+              id="comment-{{ comment.pk }}-delete-btn"
+              data-toggle="modal" data-target="#deleteCommentModal-{{ comment.pk }}">
+            delete
+          </a>
+
+          {% include 'blog/delete_modal.html' %}
+
           {% endif %}
           <span class="mt-0">{{ comment.author.username }}</span>
           <span class="mt-4">{{ comment.created_at }}</span>

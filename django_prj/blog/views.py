@@ -134,7 +134,8 @@ class PostUpdate(UpdateView):
             tags_str_list.append(t.name)
          context['tags_str_default'] = ", ".join(tags_str_list)
       return context
-   
+
+# 게시판에 댓글 추가
 def new_comment(request, pk):
    current_user = request.user
    post = Post.objects.get(id=pk)
@@ -150,5 +151,34 @@ def new_comment(request, pk):
          comment.author = current_user
          comment.save()
          return redirect(comment.get_absolute_url())
+   
+   return PermissionDenied
+
+# 댓글 수정
+class CommontUpdate(LoginRequiredMixin, UpdateView):
+   model = Comment
+   fields = [
+      'content'
+   ]
+
+   def dispatch(self, request, *args: Any, **kwargs: Any):
+      current_user = self.request.user
+      if current_user.is_authenticated and current_user == self.get_object().author:
+         return super(CommontUpdate, self).dispatch(request, *args, **kwargs)
+      
+      return PermissionDenied
+   
+# 댓글 삭제
+def delete_comment(request, pk):
+   comment = Comment.objects.get(id=pk)
+   if comment == None:
+      return Exception
+   
+   current_user = request.user
+
+   if current_user.is_authenticated and current_user == comment.author:
+      post = comment.post
+      comment.delete()
+      return redirect(post.get_absolute_url())
    
    return PermissionDenied

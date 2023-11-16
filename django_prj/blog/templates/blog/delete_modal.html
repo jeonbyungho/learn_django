@@ -1,0 +1,26 @@
+<!-- Modal{{ comment.pk }} -->
+<div class="modal fade" id="deleteCommentModal-{{ comment.pk }}" tabindex="-1"
+aria-labelledby="deleteCommentModal-{{ comment.pk }}-ModalLabel" aria-hidden="true">
+<div class="modal-dialog">
+<div class="modal-content">
+ <div class="modal-header">
+   <h5 class="modal-title" id="deleteCommentModalLabel-{{ comment.pk }}">
+<!--                                    <i class="fas fa-sign-in-alt"></i> -->
+       Are You Sure?
+   </h5>
+   <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+     <span aria-hidden="true">&times;</span>
+   </button>
+ </div>
+ <div class="modal-body">
+   <del>{{ comment }}</del>
+ </div>
+ <div class="modal-footer">
+   <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+   <a role="button" type="button" class="btn btn-danger"
+      href="/blog/delete_comment/{{ comment.pk }}" >Delete</a>
+<!--                                   data-dismiss="modal"-->
+ </div>
+</div>
+</div>
+</div>
