@@ -1,10 +1,12 @@
 from typing import Any
 from django.shortcuts import redirect, render
-from .models import Post, Category, Tag
 from django.views.generic import ListView, DetailView, CreateView, UpdateView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.exceptions import PermissionDenied
 from django.utils.text import slugify
+
+from .models import *
+from .forms import *
 
 # 게시판 목록
 class PostList(ListView):
@@ -51,6 +53,8 @@ class PostDetail(DetailView):
       context = super(PostDetail, self).get_context_data()
       context['categorys'] = Category.objects.all()
       context['no_category_post_count'] = Post.objects.filter(category=None).count()
+      context['comments'] = Comment.objects.filter(post= self.object)
+      context['comment_form'] = CommentForm
       return context
 
 # 게시판 작성
@@ -130,3 +134,21 @@ class PostUpdate(UpdateView):
             tags_str_list.append(t.name)
          context['tags_str_default'] = ", ".join(tags_str_list)
       return context
+   
+def new_comment(request, pk):
+   current_user = request.user
+   post = Post.objects.get(id=pk)
+   if not current_user.is_authenticated:
+      return PermissionDenied
+   
+   if request.method == 'POST':
+      # 사용자가 입력한 reqeust를 가지고 CommentForm 인스턴스를 생성한다.
+      comment_form = CommentForm(request.POST)
+      if comment_form.is_valid():
+         comment = comment_form.save(commit=False)
+         comment.post = post
+         comment.author = current_user
+         comment.save()
+         return redirect(comment.get_absolute_url())
+   
+   return PermissionDenied

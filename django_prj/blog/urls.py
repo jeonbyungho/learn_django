@@ -8,4 +8,5 @@ urlpatterns = [
    path("tag/<str:slug>", views.tag_page),
    path("create_post/",views.PostCreate.as_view(), name="create_post"),
    path("update_post/<int:pk>/",views.PostUpdate.as_view(), name="update_post"),
+   path("<int:pk>/new_comment/",views.new_comment, name="new_comment"),
 ]
