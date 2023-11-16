@@ -11,6 +11,7 @@
     {% endif %}
 
     <h1>Blog
+        {% if serach_info %} {{serach_info}} {% endif %}
         <!-- tag -->
         {% if tag %}
         <i class="fas fa-tags"></i>

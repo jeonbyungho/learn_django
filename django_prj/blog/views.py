@@ -1,4 +1,6 @@
 from typing import Any
+from django.db.models.query import QuerySet
+from django.db.models import Q
 from django.shortcuts import redirect, render
 from django.views.generic import ListView, DetailView, CreateView, UpdateView
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -184,3 +186,19 @@ def delete_comment(request, pk):
       return redirect(post.get_absolute_url())
    
    return PermissionDenied
+
+# 게시판 검색
+class PostSearch(PostList):
+   paginate_by = None # 페이징 처리를 안함.
+
+   # 객체 목록을 조회하는데 있어 조건, 정렬, 필터링 등 적용함.
+   def get_queryset(self) -> QuerySet[Any]:
+      q = self.kwargs.get('q')
+      post_list = Post.objects.filter(Q(title__contains=q) | Q(tags__name__contains=q)).distinct()
+      return post_list
+   
+   def get_context_data(self, **kwargs):
+      context = super().get_context_data(**kwargs)
+      q = self.kwargs.get('q')
+      context['serach_info'] = f'Search:{q} ({self.get_queryset().count()})'
+      return context
